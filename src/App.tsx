@@ -1,33 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useQuery } from '@tanstack/react-query'
+import { fetchPost} from './query.tsx'
+import type { Post } from './query.tsx'
+import Homepage from './Homepage.tsx'
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card.tsx'
 
+// buat nampilin data API
 function App() {
-  const [count, setCount] = useState(0)
+  const { data, isLoading, isError } = useQuery<Post[]>({
+    queryKey: ["Posts"],
+    queryFn: fetchPost
+  })
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <main className="mx-auto max-w-6xl px-4 py-6">
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error...</p>}
+
+{/*data?.map((post) => nya itu sampai bawah sebelum section agar kebaca  */}
+        <Homepage />
+        <section className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+          {data?.map((post) => (
+            <Card key={post.id} className='h-full'>
+              <CardHeader>
+                <CardTitle className="line-clamp-2 text-base">
+                  {post.title}
+                </CardTitle>    
+              </CardHeader>
+{/* post.title,id,dan body ini diambil dari query.tsx */}
+{/* tips nya klo kmu bingung itu karna kebanyakan tag cek aja sesuai namanya classname itu kek css nya dan sisanya kek teg buat ngsih tu itu apa, terus klo ada {} itu berarti logicnya */}
+              <CardContent>
+                <p className="line-clamp-4 text-sm text-muted-foreground">
+                  {post.body}
+                </p>
+              </CardContent>
+            </Card>
+                ))}
+        </section>
+    </main>
     </>
   )
 }
