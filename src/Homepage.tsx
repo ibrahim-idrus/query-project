@@ -3,7 +3,8 @@ import { Input } from "@/components/ui/input"
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,   DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,   DialogTrigger } from "@/components/ui/dialog"
+import InputForm from './FormFormik'
 
 
 export default function Homepage() {
@@ -29,17 +30,7 @@ export default function Homepage() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="space-y-3 py-2">
-                <Input placeholder="Post title" />
-                <Input placeholder="Short description" />
-              </div>
-
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DialogClose>
-                <Button type="button">Submit</Button>
-              </DialogFooter>
+              <InputForm />
             </DialogContent>
           </Dialog>
 
